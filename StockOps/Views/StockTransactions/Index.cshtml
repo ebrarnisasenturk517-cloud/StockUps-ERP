@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Stok Hareketleri";
+}
+
+<div class="module-header">
+    <div>
+        <h4 class="fw-bold mb-1"><i class="fa-solid fa-arrow-right-arrow-left me-2"></i>Stok Giriş / Çıkış Hareketleri</h4>
+        <p class="mb-0 text-white-50 small">Giriş, Çıkış, Transfer ve Fire Kayıtları Log Listesi</p>
+    </div>
+    <a href="/StockTransactions/Create" class="btn btn-primary fw-bold btn-sm px-3">
+        <i class="fa-solid fa-right-to-bracket me-1"></i> Yeni Hareket Kaydı
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-3 p-3">
+    <table class="table table-striped align-middle small">
+        <thead class="table-dark">
+            <tr>
+                <th>İŞLEM NO</th>
+                <th>TARİH</th>
+                <th>İŞLEM TÜRÜ</th>
+                <th>ÜRÜN ADI</th>
+                <th>ÇIKIŞ DEPOSU</th>
+                <th>GİRİŞ DEPOSU</th>
+                <th>MİKTAR</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="fw-bold">TRX-9901</td>
+                <td>04.08.2026 14:10</td>
+                <td><span class="badge bg-success"><i class="fa-solid fa-arrow-down me-1"></i>Mal Kabul (Giriş)</span></td>
+                <td>Endüstriyel Hurda Metal</td>
+                <td>Tedarikçi (Dış)</td>
+                <td>Hurda Sahası</td>
+                <td class="fw-bold text-success">+45.0 Ton</td>
+            </tr>
+            <tr>
+                <td class="fw-bold">TRX-9902</td>
+                <td>04.08.2026 15:30</td>
+                <td><span class="badge bg-primary"><i class="fa-solid fa-repeat me-1"></i>Transfer</span></td>
+                <td>Çelik Kütük (130x130 mm)</td>
+                <td>B-Blok Sahası</td>
+                <td>Haddehane Depo</td>
+                <td class="fw-bold text-primary">20.0 Ton</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

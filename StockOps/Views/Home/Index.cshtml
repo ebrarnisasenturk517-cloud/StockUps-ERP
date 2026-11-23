@@ -1,0 +1,293 @@
+﻿@{
+    ViewData["Title"] = "ERP Ana Portalı";
+
+    var username = Context.Session.GetString("Username") ?? "Kullanıcı";
+    var role = Context.Session.GetString("Role") ?? "";
+}
+
+<style>
+    :root {
+        --portal-dark: #0b1329;
+        --portal-main: #0f172a;
+        --portal-blue: #1e3a8a;
+        --portal-accent: #2563eb;
+        --portal-cyan: #38bdf8;
+        --portal-muted: #94a3b8;
+    }
+
+    .erp-portal-wrapper {
+        width: 100%;
+        min-height: calc(100vh - 115px);
+        padding: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient( circle at top right, rgba(37, 99, 235, 0.12), transparent 35% );
+    }
+
+    .portal-hero-container {
+        position: relative;
+        width: 100%;
+        max-width: 1250px;
+        overflow: hidden;
+        padding: 65px 55px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 24px;
+        color: #ffffff;
+        background: linear-gradient( 135deg, var(--portal-dark) 0%, var(--portal-main) 50%, var(--portal-blue) 100% );
+        box-shadow: 0 24px 50px rgba(11, 19, 41, 0.30);
+    }
+
+        .portal-hero-container::before {
+            content: "";
+            position: absolute;
+            top: -150px;
+            right: -120px;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            background: radial-gradient( circle, rgba(56, 189, 248, 0.18), transparent 68% );
+            pointer-events: none;
+        }
+
+        .portal-hero-container::after {
+            content: "";
+            position: absolute;
+            bottom: -180px;
+            left: -120px;
+            width: 380px;
+            height: 380px;
+            border-radius: 50%;
+            background: radial-gradient( circle, rgba(37, 99, 235, 0.18), transparent 70% );
+            pointer-events: none;
+        }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 760px;
+    }
+
+    .hero-brand-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin-bottom: 22px;
+        padding: 7px 15px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 30px;
+        color: var(--portal-cyan);
+        background: rgba(255, 255, 255, 0.07);
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+    }
+
+    .hero-status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #4ade80;
+        box-shadow: 0 0 12px rgba(74, 222, 128, 0.7);
+    }
+
+    .hero-title {
+        margin-bottom: 18px;
+        color: #ffffff;
+        font-size: clamp(2.2rem, 5vw, 4rem);
+        font-weight: 900;
+        line-height: 1.08;
+        letter-spacing: -1.5px;
+    }
+
+        .hero-title span {
+            color: var(--portal-cyan);
+        }
+
+    .hero-subtitle {
+        max-width: 700px;
+        margin-bottom: 34px;
+        color: var(--portal-muted);
+        font-size: 1.1rem;
+        line-height: 1.75;
+    }
+
+    .hero-user-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 32px;
+    }
+
+    .hero-info-badge {
+        padding: 8px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 9px;
+        color: #cbd5e1;
+        background: rgba(255, 255, 255, 0.06);
+        font-size: 0.88rem;
+        font-weight: 600;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 13px;
+    }
+
+    .btn-portal-primary,
+    .btn-portal-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 25px;
+        border-radius: 11px;
+        font-weight: 800;
+        text-decoration: none;
+        transition: 0.22s ease;
+    }
+
+    .btn-portal-primary {
+        border: 1px solid var(--portal-accent);
+        color: #ffffff;
+        background: var(--portal-accent);
+        box-shadow: 0 8px 22px rgba(37, 99, 235, 0.35);
+    }
+
+        .btn-portal-primary:hover {
+            color: #ffffff;
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+    .btn-portal-secondary {
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.07);
+    }
+
+        .btn-portal-secondary:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.13);
+            transform: translateY(-2px);
+        }
+
+    @@media (max-width: 768px) {
+        .erp-portal-wrapper {
+            padding: 18px;
+            align-items: flex-start;
+        }
+
+        .portal-hero-container {
+            padding: 40px 25px;
+        }
+
+        .hero-title {
+            font-size: 2.35rem;
+        }
+
+        .hero-actions a {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<div class="erp-portal-wrapper">
+
+    <section class="portal-hero-container">
+
+        <div class="hero-content">
+
+            <div class="hero-brand-badge">
+                <span class="hero-status-dot"></span>
+                Çelik Çekirdek StockOps ERP
+            </div>
+
+            <h1 class="hero-title">
+                FABRİKA VE DEPO<br />
+                <span>YÖNETİM PORTALI</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Ürün, stok, depo, raf, satın alma ve iç talep süreçlerini
+                tek merkezden yönetin. Fabrika operasyonlarınızı daha
+                düzenli ve izlenebilir hale getirin.
+            </p>
+
+            @if (!string.IsNullOrWhiteSpace(role))
+            {
+                <div class="hero-user-info">
+
+                    <div class="hero-info-badge">
+                        <i class="fa-solid fa-user me-1"></i>
+                        @username
+                    </div>
+
+                    <div class="hero-info-badge">
+                        <i class="fa-solid fa-shield-halved me-1"></i>
+                        @role
+                    </div>
+
+                </div>
+            }
+
+            <div class="hero-actions">
+
+                @if (role == "Admin")
+                {
+                    <a asp-controller="Admin"
+                       asp-action="Index"
+                       class="btn-portal-primary">
+
+                        <i class="fa-solid fa-gauge-high"></i>
+                        Yönetim Paneline Geç
+                    </a>
+
+                    <a asp-controller="Warehouses"
+                       asp-action="Index"
+                       class="btn-portal-secondary">
+
+                        <i class="fa-solid fa-warehouse"></i>
+                        Depoları Görüntüle
+                    </a>
+                }
+                else if (role == "Depo")
+                {
+                    <a asp-controller="Worker"
+                       asp-action="Index"
+                       class="btn-portal-primary">
+
+                        <i class="fa-solid fa-warehouse"></i>
+                        Depo Paneline Geç
+                    </a>
+                }
+                else if (role == "SatinAlma")
+                {
+                    <a asp-controller="Purchasing"
+                       asp-action="Dashboard"
+                       class="btn-portal-primary">
+
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        Satın Alma Paneline Geç
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Auth"
+                       asp-action="Login"
+                       class="btn-portal-primary">
+
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        Sisteme Giriş Yap
+                    </a>
+                }
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

@@ -1,0 +1,41 @@
+﻿@{
+    var product = ViewBag.Product as StockOps.Models.Product;
+}
+
+
+
+@if (product != null)
+{
+    <div class="card p-4 shadow mt-3">
+
+        <h4>@product.Name</h4>
+
+        <p><b>Barkod:</b> @product.Barcode</p>
+        <p><b>Ürün Kodu:</b> @product.ProductCode</p>
+        <p><b>Çelik Tipi:</b> @product.SteelType</p>
+        <p><b>Ölçü:</b> @product.Dimension</p>
+        <p><b>Mevcut Stok:</b> @product.StockQuantity</p>
+
+        <form asp-action="Create" asp-controller="Requests" method="post">
+
+            <input type="hidden" name="productId" value="@product.Id" />
+
+            <div class="mb-3">
+                <label>Talep Miktarı</label>
+                <input type="number" name="quantity" class="form-control" min="1" required />
+            </div>
+
+            <button type="submit" class="btn btn-dark">
+                Talep Gönder
+            </button>
+
+        </form>
+
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        Ürün bilgisi bulunamadı.
+    </div>
+}

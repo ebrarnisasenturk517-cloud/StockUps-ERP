@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Ürün Kataloğu";
+}
+
+<div class="module-header">
+    <div>
+        <h4 class="fw-bold mb-1"><i class="fa-solid fa-boxes-stacked me-2"></i>Ürün Kataloğu ve Tanımları</h4>
+        <p class="mb-0 text-white-50 small">Fabrika Hammadde, Yarı Mamul ve Mamul Ürün Listesi</p>
+    </div>
+    <a href="/Products/Create" class="btn btn-primary fw-bold btn-sm px-3">
+        <i class="fa-solid fa-plus me-1"></i> Yeni Ürün Ekle
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-3 p-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h6 class="fw-bold m-0"><i class="fa-solid fa-list me-2 text-primary"></i>Kayıtlı Ürünler</h6>
+        <input type="text" class="form-control form-control-sm w-25" placeholder="Ürün adı, kod veya grup ara..." />
+    </div>
+
+    <table class="table table-hover align-middle small">
+        <thead class="table-dark">
+            <tr>
+                <th>ÜRÜN KODU</th>
+                <th>ÜRÜN ADI</th>
+                <th>KATEGORİ</th>
+                <th>MİN. STOK</th>
+                <th>BİRİM</th>
+                <th>DURUM</th>
+                <th>İŞLEM</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="fw-bold">PRD-1020</td>
+                <td>Nervürlü İnşaat Demiri (12mm)</td>
+                <td>Mamul</td>
+                <td>50 Ton</td>
+                <td>Ton</td>
+                <td><span class="badge bg-success">Aktif</span></td>
+                <td>
+                    <button class="btn btn-outline-secondary btn-sm py-0 px-2"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn btn-outline-danger btn-sm py-0 px-2"><i class="fa-solid fa-trash"></i></button>
+                </td>
+            </tr>
+            <tr>
+                <td class="fw-bold">PRD-3050</td>
+                <td>Çelik Kütük (130x130 mm)</td>
+                <td>Yarı Mamul</td>
+                <td>100 Ton</td>
+                <td>Ton</td>
+                <td><span class="badge bg-success">Aktif</span></td>
+                <td>
+                    <button class="btn btn-outline-secondary btn-sm py-0 px-2"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn btn-outline-danger btn-sm py-0 px-2"><i class="fa-solid fa-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

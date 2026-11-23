@@ -1,0 +1,214 @@
+﻿@model StockOps.Models.StorageLocation
+
+@{
+    ViewData["Title"] = "Raf ve Lokasyon Düzenle";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+                    <h2 class="fw-bold mb-1">
+                        Raf ve Lokasyon Düzenle
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Fiziksel depo lokasyonunun bilgilerini güncelleyin.
+                    </p>
+                </div>
+
+                <a asp-action="Index"
+                   asp-route-zoneId="@Model.WarehouseZoneId"
+                   class="btn btn-outline-secondary">
+                    Listeye Dön
+                </a>
+
+            </div>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-action="Edit" method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input asp-for="Id" type="hidden" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="WarehouseZoneId"
+                                   class="form-label">
+                                Depo Bölgesi
+                            </label>
+
+                            <select asp-for="WarehouseZoneId"
+                                    asp-items="ViewBag.ZoneList"
+                                    class="form-select">
+                            </select>
+
+                            <span asp-validation-for="WarehouseZoneId"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="LocationCode"
+                                   class="form-label">
+                                Lokasyon Kodu
+                            </label>
+
+                            <input asp-for="LocationCode"
+                                   class="form-control" />
+
+                            <span asp-validation-for="LocationCode"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="Aisle"
+                                       class="form-label">
+                                    Koridor
+                                </label>
+
+                                <input asp-for="Aisle"
+                                       class="form-control" />
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="Rack"
+                                       class="form-label">
+                                    Raf
+                                </label>
+
+                                <input asp-for="Rack"
+                                       class="form-control" />
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="Shelf"
+                                       class="form-label">
+                                    Kat
+                                </label>
+
+                                <input asp-for="Shelf"
+                                       class="form-control" />
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="Bin"
+                                       class="form-label">
+                                    Göz
+                                </label>
+
+                                <input asp-for="Bin"
+                                       class="form-control" />
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="MaximumCapacity"
+                                   class="form-label">
+                                Maksimum Kapasite
+                            </label>
+
+                            <input asp-for="MaximumCapacity"
+                                   type="number"
+                                   min="0"
+                                   step="0.01"
+                                   class="form-control" />
+
+                            <span asp-validation-for="MaximumCapacity"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="row mb-4">
+
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+
+                                    <input asp-for="IsOccupied"
+                                           class="form-check-input"
+                                           type="checkbox" />
+
+                                    <label asp-for="IsOccupied"
+                                           class="form-check-label">
+                                        Lokasyon dolu
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-check form-switch">
+
+                                    <input asp-for="IsActive"
+                                           class="form-check-input"
+                                           type="checkbox" />
+
+                                    <label asp-for="IsActive"
+                                           class="form-check-label">
+                                        Lokasyon aktif
+                                    </label>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+
+                            <a asp-action="Index"
+                               asp-route-zoneId="@Model.WarehouseZoneId"
+                               class="btn btn-light">
+                                İptal
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-warning">
+                                Değişiklikleri Kaydet
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

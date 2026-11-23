@@ -1,0 +1,36 @@
+﻿@model StockOps.Models.Product
+
+<div class="container mt-5">
+
+    <div class="card p-4 shadow">
+
+        <h2>Barkod ile Ürün Ara</h2>
+
+        <form method="post">
+
+            <input type="text"
+                   name="barcode"
+                   class="form-control mt-3"
+                   placeholder="Barkod Giriniz" />
+
+            <button class="btn btn-primary mt-3">
+                Ürün Ara
+            </button>
+
+        </form>
+
+        @if (Model != null)
+        {
+            <hr />
+
+            <h4>Ürün Bilgileri</h4>
+
+            <p><strong>Ürün:</strong> @Model.Name</p>
+            <p><strong>Barkod:</strong> @Model.Barcode</p>
+            <p><strong>Stok:</strong> @Model.StockQuantity</p>
+            <p><strong>Fiyat:</strong> @Model.Price ₺</p>
+        }
+
+    </div>
+
+</div>

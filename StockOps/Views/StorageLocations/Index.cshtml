@@ -1,0 +1,329 @@
+﻿@model IEnumerable<StockOps.Models.StorageLocation>
+
+@{
+    ViewData["Title"] = "Raf ve Lokasyonlar";
+
+    var zones =
+        ViewBag.Zones as List<StockOps.Models.WarehouseZone>;
+
+    var selectedZone =
+        ViewBag.SelectedZone as StockOps.Models.WarehouseZone;
+}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">Raf ve Lokasyon Yönetimi</h2>
+
+            <p class="text-muted mb-0">
+                Depo içindeki koridor, raf, kat ve gözleri yönetin.
+            </p>
+        </div>
+
+        <a asp-action="Create"
+           asp-route-zoneId="@selectedZone?.Id"
+           class="btn btn-primary">
+            Yeni Lokasyon
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @TempData["SuccessMessage"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            @TempData["ErrorMessage"]
+
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert">
+            </button>
+        </div>
+    }
+
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+
+            <form method="get"
+                  asp-action="Index"
+                  class="row g-3 align-items-end">
+
+                <div class="col-md-8">
+                    <label class="form-label">
+                        Depo Bölgesine Göre Filtrele
+                    </label>
+
+                    <select name="zoneId"
+                            class="form-select">
+
+                        <option value="">
+                            Tüm Bölgeler
+                        </option>
+
+                        @if (zones != null)
+                        {
+                            foreach (var zone in zones)
+                            {
+                                var displayName =
+                                    $"{zone.Warehouse?.Name} - {zone.ZoneCode} - {zone.Name}";
+
+                                if (selectedZone?.Id == zone.Id)
+                                {
+                                    <option value="@zone.Id" selected>
+                                        @displayName
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@zone.Id">
+                                        @displayName
+                                    </option>
+                                }
+                            }
+                        }
+
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <button type="submit"
+                            class="btn btn-dark">
+                        Filtrele
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        Temizle
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-header bg-white py-3">
+            <div class="d-flex justify-content-between align-items-center">
+
+                <h5 class="mb-0">
+                    @if (selectedZone != null)
+                    {
+                        <span>
+                            @selectedZone.Warehouse?.Name /
+                            @selectedZone.Name Lokasyonları
+                        </span>
+                    }
+                    else
+                    {
+                        <span>Tüm Raf ve Lokasyonlar</span>
+                    }
+                </h5>
+
+                <span class="badge bg-secondary">
+                    Toplam: @Model.Count()
+                </span>
+
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h5>Henüz raf veya lokasyon bulunmuyor</h5>
+
+                    <p class="text-muted">
+                        İlk lokasyon kaydını oluşturmak için yeni lokasyon
+                        butonunu kullanın.
+                    </p>
+
+                    <a asp-action="Create"
+                       asp-route-zoneId="@selectedZone?.Id"
+                       class="btn btn-primary">
+                        Yeni Lokasyon Oluştur
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle mb-0">
+
+                        <thead class="table-light">
+                            <tr>
+                                <th>Depo</th>
+                                <th>Bölge</th>
+                                <th>Lokasyon Kodu</th>
+                                <th>Koridor</th>
+                                <th>Raf</th>
+                                <th>Kat</th>
+                                <th>Göz</th>
+                                <th>Kapasite</th>
+                                <th>Doluluk</th>
+                                <th>Durum</th>
+                                <th class="text-end">İşlemler</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var location in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @location.WarehouseZone?.Warehouse?.Name
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-dark">
+                                            @location.WarehouseZone?.ZoneCode
+                                        </span>
+
+                                        <div class="small text-muted mt-1">
+                                            @location.WarehouseZone?.Name
+                                        </div>
+                                    </td>
+
+                                    <td class="fw-semibold">
+                                        @location.LocationCode
+                                    </td>
+
+                                    <td>
+                                        @(string.IsNullOrWhiteSpace(location.Aisle)
+                                            ? "-"
+                                            : location.Aisle)
+                                    </td>
+
+                                    <td>
+                                        @(string.IsNullOrWhiteSpace(location.Rack)
+                                            ? "-"
+                                            : location.Rack)
+                                    </td>
+
+                                    <td>
+                                        @(string.IsNullOrWhiteSpace(location.Shelf)
+                                            ? "-"
+                                            : location.Shelf)
+                                    </td>
+
+                                    <td>
+                                        @(string.IsNullOrWhiteSpace(location.Bin)
+                                            ? "-"
+                                            : location.Bin)
+                                    </td>
+
+                                    <td>
+                                        @location.MaximumCapacity.ToString("N2")
+                                    </td>
+
+                                    <td>
+                                        @if (location.IsOccupied)
+                                        {
+                                            <span class="badge bg-warning text-dark">
+                                                Dolu
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-info text-dark">
+                                                Boş
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (location.IsActive)
+                                        {
+                                            <span class="badge bg-success">
+                                                Aktif
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">
+                                                Pasif
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td class="text-end">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@location.Id"
+                                           class="btn btn-sm btn-outline-warning">
+                                            Düzenle
+                                        </a>
+
+                                        <form asp-action="ToggleOccupied"
+                                              asp-route-id="@location.Id"
+                                              method="post"
+                                              class="d-inline">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-info">
+                                                @(location.IsOccupied
+                                                    ? "Boş Yap"
+                                                    : "Dolu Yap")
+                                            </button>
+                                        </form>
+
+                                        <form asp-action="ToggleStatus"
+                                              asp-route-id="@location.Id"
+                                              method="post"
+                                              class="d-inline">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-secondary">
+                                                @(location.IsActive
+                                                    ? "Pasif Yap"
+                                                    : "Aktif Yap")
+                                            </button>
+                                        </form>
+
+                                        <form asp-action="Delete"
+                                              asp-route-id="@location.Id"
+                                              method="post"
+                                              class="d-inline"
+                                              onsubmit="return confirm('Bu lokasyonu silmek istediğinize emin misiniz?');">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit"
+                                                    class="btn btn-sm btn-outline-danger">
+                                                Sil
+                                            </button>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

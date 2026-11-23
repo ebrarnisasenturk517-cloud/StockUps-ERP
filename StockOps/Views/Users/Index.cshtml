@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Kullanıcılar";
+}
+
+<div class="module-header">
+    <div>
+        <h4 class="fw-bold mb-1"><i class="fa-solid fa-users me-2"></i>Kullanıcı ve Rol Yönetimi</h4>
+        <p class="mb-0 text-white-50 small">Sistem Yetkileri, Operatör ve Depo Sorumluları</p>
+    </div>
+    <a href="/Users/Create" class="btn btn-primary fw-bold btn-sm px-3">
+        <i class="fa-solid fa-user-plus me-1"></i> Yeni Kullanıcı
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-3 p-3">
+    <table class="table table-hover align-middle small">
+        <thead class="table-dark">
+            <tr>
+                <th>KULLANICI ADI</th>
+                <th>AD SOYAD</th>
+                <th>E-POSTA</th>
+                <th>ROL / YETKİ</th>
+                <th>DURUM</th>
+                <th>İŞLEM</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="fw-bold">admin</td>
+                <td>Sistem Yöneticisi</td>
+                <td>admin@celikfabrika.com</td>
+                <td><span class="badge bg-primary">Admin</span></td>
+                <td><span class="badge bg-success">Aktif</span></td>
+                <td><button class="btn btn-sm btn-outline-secondary py-0 px-2">Düzenle</button></td>
+            </tr>
+            <tr>
+                <td class="fw-bold">depo_ahmet</td>
+                <td>Ahmet Yılmaz</td>
+                <td>ahmet@celikfabrika.com</td>
+                <td><span class="badge bg-info text-dark">Depo Sorumlusu</span></td>
+                <td><span class="badge bg-success">Aktif</span></td>
+                <td><button class="btn btn-sm btn-outline-secondary py-0 px-2">Düzenle</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

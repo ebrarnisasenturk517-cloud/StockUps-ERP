@@ -1,0 +1,198 @@
+﻿@model StockOps.Models.StorageLocation
+
+@{
+    ViewData["Title"] = "Yeni Raf ve Lokasyon";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-9">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+                    <h2 class="fw-bold mb-1">
+                        Yeni Raf ve Lokasyon
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Depo bölgesine yeni bir fiziksel saklama alanı ekleyin.
+                    </p>
+                </div>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Listeye Dön
+                </a>
+
+            </div>
+
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="WarehouseZoneId"
+                                   class="form-label">
+                                Depo Bölgesi
+                            </label>
+
+                            <select asp-for="WarehouseZoneId"
+                                    asp-items="ViewBag.ZoneList"
+                                    class="form-select">
+
+                                <option value="">
+                                    Depo Bölgesi Seçiniz
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="WarehouseZoneId"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="LocationCode"
+                                   class="form-label">
+                                Lokasyon Kodu
+                            </label>
+
+                            <input asp-for="LocationCode"
+                                   class="form-control"
+                                   placeholder="Örnek: A-01-02-03" />
+
+                            <span asp-validation-for="LocationCode"
+                                  class="text-danger">
+                            </span>
+
+                            <small class="text-muted">
+                                Koridor, raf, kat ve göz bilgilerinden oluşan
+                                benzersiz bir kod kullanabilirsiniz.
+                            </small>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="Aisle"
+                                       class="form-label">
+                                    Koridor
+                                </label>
+
+                                <input asp-for="Aisle"
+                                       class="form-control"
+                                       placeholder="A" />
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="Rack"
+                                       class="form-label">
+                                    Raf
+                                </label>
+
+                                <input asp-for="Rack"
+                                       class="form-control"
+                                       placeholder="01" />
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="Shelf"
+                                       class="form-label">
+                                    Kat
+                                </label>
+
+                                <input asp-for="Shelf"
+                                       class="form-control"
+                                       placeholder="02" />
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label asp-for="Bin"
+                                       class="form-label">
+                                    Göz
+                                </label>
+
+                                <input asp-for="Bin"
+                                       class="form-control"
+                                       placeholder="03" />
+                            </div>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="MaximumCapacity"
+                                   class="form-label">
+                                Maksimum Kapasite
+                            </label>
+
+                            <input asp-for="MaximumCapacity"
+                                   type="number"
+                                   min="0"
+                                   step="0.01"
+                                   class="form-control"
+                                   placeholder="Örnek: 1500" />
+
+                            <span asp-validation-for="MaximumCapacity"
+                                  class="text-danger">
+                            </span>
+
+                            <small class="text-muted">
+                                Lokasyonun taşıyabileceği veya saklayabileceği
+                                azami miktarı girin.
+                            </small>
+
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+
+                            <a asp-action="Index"
+                               asp-route-zoneId="@Model.WarehouseZoneId"
+                               class="btn btn-light">
+                                İptal
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Lokasyonu Kaydet
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,550 @@
+﻿@{
+    ViewData["Title"] = "ERP Kontrol Paneli";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+    /* ==========================================================================
+           KURUMSAL LACİVERT DASHBOARD PALETİ
+           ========================================================================== */
+    :root {
+        --dash-navy-dark: #0b1329;
+        --dash-navy-main: #0f172a;
+        --dash-navy-slate: #1e293b;
+        --dash-navy-steel: #1e3a8a;
+        --dash-blue: #2563eb;
+        --dash-cyan: #0284c7;
+        --dash-emerald: #059669;
+        --dash-danger: #dc2626;
+        --dash-warning: #d97706;
+        --dash-bg: #f8fafc;
+        --dash-border: #e2e8f0;
+        --dash-text: #0f172a;
+        --dash-muted: #64748b;
+    }
+
+    .erp-dash-container {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        color: var(--dash-text);
+        padding-top: 10px;
+        padding-bottom: 40px;
+    }
+
+    /* ÜST BAŞLIK BANNERI */
+    .dash-header-banner {
+        background: linear-gradient(135deg, #0b1329 0%, #0f172a 60%, #1e3a8a 100%);
+        border-radius: 16px;
+        padding: 26px 32px;
+        color: #ffffff !important;
+        box-shadow: 0 12px 28px -5px rgba(11, 19, 41, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .dash-header-title {
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: #ffffff !important;
+        margin: 0 0 4px 0;
+    }
+
+    .dash-header-subtitle {
+        color: #93c5fd !important;
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+    .dash-date-badge {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #ffffff !important;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        font-weight: 700;
+    }
+
+    /* KPI KARTLARI */
+    .kpi-block {
+        background: #ffffff;
+        border: 1px solid var(--dash-border);
+        border-radius: 14px;
+        padding: 20px 22px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        transition: transform 0.2s ease;
+    }
+
+        .kpi-block:hover {
+            transform: translateY(-3px);
+        }
+
+        .kpi-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--dash-blue);
+        }
+
+        .kpi-block.kpi-danger::before {
+            background-color: var(--dash-danger);
+        }
+
+        .kpi-block.kpi-success::before {
+            background-color: var(--dash-emerald);
+        }
+
+        .kpi-block.kpi-cyan::before {
+            background-color: var(--dash-cyan);
+        }
+
+    .kpi-label {
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--dash-muted) !important;
+        margin-bottom: 6px;
+    }
+
+    .kpi-number {
+        font-size: 1.9rem;
+        font-weight: 900;
+        color: var(--dash-navy-main) !important;
+        line-height: 1;
+        margin-bottom: 6px;
+    }
+
+    .kpi-info-text {
+        font-size: 0.82rem;
+        color: var(--dash-muted);
+        font-weight: 600;
+        margin: 0;
+    }
+
+    /* KART BİLEŞENLERİ */
+    .dash-section-card {
+        background: #ffffff;
+        border: 1px solid var(--dash-border);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        margin-bottom: 24px;
+    }
+
+    .dash-section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 14px;
+        margin-bottom: 16px;
+        border-bottom: 1px solid var(--dash-border);
+    }
+
+    .dash-section-title {
+        font-size: 1.1rem;
+        font-weight: 800;
+        color: var(--dash-navy-main) !important;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+        .dash-section-title i {
+            color: var(--dash-blue);
+        }
+
+    /* KURUMSAL LACİVERT TABLO */
+    .navy-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .navy-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+    }
+
+        .navy-table th {
+            background-color: var(--dash-navy-main);
+            color: #ffffff !important;
+            font-weight: 700;
+            padding: 12px 14px;
+            font-size: 0.82rem;
+            letter-spacing: 0.4px;
+        }
+
+            .navy-table th:first-child {
+                border-top-left-radius: 6px;
+            }
+
+            .navy-table th:last-child {
+                border-top-right-radius: 6px;
+            }
+
+        .navy-table td {
+            padding: 13px 14px;
+            border-bottom: 1px solid var(--dash-border);
+            color: var(--dash-text) !important;
+            vertical-align: middle;
+        }
+
+        .navy-table tbody tr:hover {
+            background-color: #f1f5f9;
+        }
+
+    /* ROZETLER (BADGES) */
+    .badge-navy {
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .badge-navy-success {
+        background: #ecfdf5;
+        color: #047857 !important;
+        border: 1px solid #a7f3d0;
+    }
+
+    .badge-navy-danger {
+        background: #fef2f2;
+        color: #b91c1c !important;
+        border: 1px solid #fecaca;
+    }
+
+    .badge-navy-warning {
+        background: #fffbeb;
+        color: #b45309 !important;
+        border: 1px solid #fde68a;
+    }
+
+    /* HIZLI İŞLEM BUTONLARI */
+    .navy-action-btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: var(--dash-bg);
+        border: 1px solid var(--dash-border);
+        border-radius: 10px;
+        color: var(--dash-navy-main) !important;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        margin-bottom: 10px;
+    }
+
+        .navy-action-btn:hover {
+            background: #ffffff;
+            border-color: var(--dash-blue);
+            color: var(--dash-blue) !important;
+            transform: translateX(4px);
+        }
+
+    .navy-action-icon {
+        width: 34px;
+        height: 34px;
+        background: var(--dash-navy-main);
+        color: #ffffff !important;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.95rem;
+        flex-shrink: 0;
+    }
+
+    /* UYARI KARTLARI */
+    .navy-alert-box {
+        padding: 12px 14px;
+        border-radius: 8px;
+        background: var(--dash-bg);
+        border-left: 4px solid var(--dash-blue);
+        margin-bottom: 10px;
+    }
+
+        .navy-alert-box.alert-danger {
+            border-left-color: var(--dash-danger);
+        }
+
+        .navy-alert-box.alert-warning {
+            border-left-color: var(--dash-warning);
+        }
+
+    .alert-title {
+        font-weight: 800;
+        font-size: 0.85rem;
+        color: var(--dash-navy-main) !important;
+        margin-bottom: 2px;
+    }
+
+    .alert-desc {
+        font-size: 0.8rem;
+        color: var(--dash-muted) !important;
+        margin: 0;
+    }
+
+    /* PROGRESS BAR */
+    .progress-track {
+        background-color: #e2e8f0;
+        height: 7px;
+        border-radius: 4px;
+        overflow: hidden;
+        margin-top: 5px;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background-color: var(--dash-blue);
+        border-radius: 4px;
+    }
+</style>
+
+<div class="erp-dash-container">
+
+    <!-- ÜST KARŞILAMA BANNERI -->
+    <div class="dash-header-banner">
+        <div>
+            <h1 class="dash-header-title">Fabrika Operasyon Dashboard</h1>
+            <p class="dash-header-subtitle">ÇelikÇekirdek ERP • Anlık Stok, Depo ve Sevkiyat Durumu</p>
+        </div>
+        <div>
+            <span class="dash-date-badge">
+                <i class="fa-solid fa-clock me-1"></i> @DateTime.Now.ToString("dd MMMM yyyy, dddd")
+            </span>
+        </div>
+    </div>
+
+    <!-- KPI İSTATİSTİK KARTLARI -->
+    <div class="row g-3 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="kpi-block kpi-cyan">
+                <div class="kpi-label">Toplam Stoklu Kalem</div>
+                <div class="kpi-number">142</div>
+                <p class="kpi-info-text"><span style="color: var(--dash-emerald); font-weight: 700;">+4 Kalem</span> bu hafta eklendi</p>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="kpi-block kpi-danger">
+                <div class="kpi-label">Kritik Stok Seviyesi</div>
+                <div class="kpi-number" style="color: var(--dash-danger) !important;">5 Kalem</div>
+                <p class="kpi-info-text" style="color: var(--dash-danger) !important; font-weight: 700;">
+                    <i class="fa-solid fa-triangle-exclamation me-1"></i> Asgari sınırın altında
+                </p>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="kpi-block">
+                <div class="kpi-label">Onay Bekleyen Talepler</div>
+                <div class="kpi-number">8 Talep</div>
+                <p class="kpi-info-text">Satın Alma & Ambar Onayı Bekliyor</p>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="kpi-block kpi-success">
+                <div class="kpi-label">Bugünkü Sevkiyat Hacmi</div>
+                <div class="kpi-number" style="color: var(--dash-emerald) !important;">+28.5 Ton</div>
+                <p class="kpi-info-text">14 Sevkiyat işlemi tamamlandı</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANA GÖVDE -->
+    <div class="row g-4">
+
+        <!-- SOL KOLON (TABLO & DEPO DOLULUKLARI) -->
+        <div class="col-lg-8">
+
+            <!-- HAREKET TABLOSU -->
+            <div class="dash-section-card">
+                <div class="dash-section-header">
+                    <h5 class="dash-section-title">
+                        <i class="fa-solid fa-right-left"></i> Son Depo ve Stok Hareketleri
+                    </h5>
+                    <a href="/Stock/Movements" class="btn btn-sm btn-dark px-3 fw-bold" style="border-radius: 6px; background-color: var(--dash-navy-main);">
+                        Tümünü Gör
+                    </a>
+                </div>
+
+                <div class="navy-table-wrapper">
+                    <table class="navy-table">
+                        <thead>
+                            <tr>
+                                <th>BARKOD</th>
+                                <th>ÜRÜN ADI</th>
+                                <th>İŞLEM</th>
+                                <th>MİKTAR</th>
+                                <th>LOKASYON</th>
+                                <th>SAAT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-bold">BRK-88412</td>
+                                <td>Nervürlü İnşaat Demiri (16mm)</td>
+                                <td><span class="badge-navy badge-navy-success"><i class="fa-solid fa-arrow-down"></i> Giriş</span></td>
+                                <td class="fw-bold">+12.5 Ton</td>
+                                <td>A-2 Blok Depo</td>
+                                <td class="text-muted small">10:42</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">BRK-90124</td>
+                                <td>Çelik Kütük Block (130x130)</td>
+                                <td><span class="badge-navy badge-navy-danger"><i class="fa-solid fa-arrow-up"></i> Çıkış</span></td>
+                                <td class="fw-bold">-8.0 Ton</td>
+                                <td>Eritme Hattı B</td>
+                                <td class="text-muted small">09:15</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">BRK-33105</td>
+                                <td>Paslanmaz Çelik Sac (3mm)</td>
+                                <td><span class="badge-navy badge-navy-success"><i class="fa-solid fa-arrow-down"></i> Giriş</span></td>
+                                <td class="fw-bold">+4.0 Plaka</td>
+                                <td>C-1 Hammadde Depo</td>
+                                <td class="text-muted small">Dün, 16:30</td>
+                            </tr>
+                            <tr>
+                                <td class="fw-bold">BRK-77219</td>
+                                <td>Endüstriyel Alaşım Katkısı</td>
+                                <td><span class="badge-navy badge-navy-warning"><i class="fa-solid fa-flask"></i> Testte</span></td>
+                                <td class="fw-bold">500 kg</td>
+                                <td>Kabul Laboratuvarı</td>
+                                <td class="text-muted small">Dün, 14:10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- DEPO DOLULUKLARI -->
+            <div class="dash-section-card">
+                <div class="dash-section-header">
+                    <h5 class="dash-section-title">
+                        <i class="fa-solid fa-warehouse"></i> WMS Depo Doluluk Durumu
+                    </h5>
+                    <span class="text-muted small font-monospace">Canlı Sensörler</span>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between small fw-bold mb-1">
+                                <span>A-Blok Hammadde Sahası</span>
+                                <span style="color: var(--dash-blue);">%82</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 82%;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between small fw-bold mb-1">
+                                <span>B-Blok Haddehane Yarı Mamul</span>
+                                <span style="color: var(--dash-emerald);">%64</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 64%; background-color: var(--dash-emerald);"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between small fw-bold mb-1">
+                                <span>C-Blok Sevkiyat Deposu</span>
+                                <span style="color: var(--dash-cyan);">%45</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 45%; background-color: var(--dash-cyan);"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between small fw-bold mb-1">
+                                <span>Hurda Sahası</span>
+                                <span style="color: var(--dash-warning);">%91 (Kritik)</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: 91%; background-color: var(--dash-warning);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SAĞ KOLON (HIZLI İŞLEMLER & BİLDİRİMLER) -->
+        <div class="col-lg-4">
+
+            <!-- HIZLI İŞLEMLER -->
+            <div class="dash-section-card">
+                <div class="dash-section-header">
+                    <h5 class="dash-section-title">
+                        <i class="fa-solid fa-bolt" style="color: var(--dash-warning);"></i> Hızlı Kısayollar
+                    </h5>
+                </div>
+
+                <a href="/Stock/Create" class="navy-action-btn">
+                    <div class="navy-action-icon"><i class="fa-solid fa-plus"></i></div>
+                    <span>Stok Kartı Ekle</span>
+                </a>
+
+                <a href="/Barcode/Scan" class="navy-action-btn">
+                    <div class="navy-action-icon" style="background-color: var(--dash-navy-steel);"><i class="fa-solid fa-barcode"></i></div>
+                    <span>Barkod İle Stok Giriş/Çıkış</span>
+                </a>
+
+                <a href="/Demand/Create" class="navy-action-btn">
+                    <div class="navy-action-icon" style="background-color: var(--dash-cyan);"><i class="fa-solid fa-cart-plus"></i></div>
+                    <span>Malzeme Talebi Oluştur</span>
+                </a>
+
+                <a href="/Report/ExportExcel" class="navy-action-btn">
+                    <div class="navy-action-icon" style="background-color: var(--dash-emerald);"><i class="fa-solid fa-file-excel"></i></div>
+                    <span>Stok Raporu Al (Excel)</span>
+                </a>
+            </div>
+
+            <!-- BİLDİRİMLER -->
+            <div class="dash-section-card">
+                <div class="dash-section-header">
+                    <h5 class="dash-section-title">
+                        <i class="fa-solid fa-bell" style="color: var(--dash-danger);"></i> Sistem Uyarıları
+                    </h5>
+                </div>
+
+                <div class="navy-alert-box alert-danger">
+                    <div class="alert-title">Kritik Stok Sınırı!</div>
+                    <p class="alert-desc">12mm Çelik Filmaşin stoğu 5 Tona düştü.</p>
+                </div>
+
+                <div class="navy-alert-box alert-warning">
+                    <div class="alert-title">Onay Bekleyen Talep</div>
+                    <p class="alert-desc">#TLP-4029 numaralı yedek parça talebi onay bekliyor.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

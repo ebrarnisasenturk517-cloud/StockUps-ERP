@@ -1,0 +1,110 @@
+﻿@{
+    ViewData["Title"] = "SATIN ALMA YÖNETİMİ";
+}
+
+<style>
+    .dashboard-title {
+        color: white;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-subtitle {
+        color: #d1d5db;
+        margin-bottom: 30px;
+        font-weight: 600;
+    }
+
+    .stat-card {
+        background: rgba(255,255,255,0.96);
+        border-radius: 20px;
+        padding: 28px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+        transition: 0.3s;
+        border: none;
+        height: 100%;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-6px);
+    }
+
+    .stat-card h6 {
+        color: #111827;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .stat-card h2 {
+        color: #111827;
+        font-weight: 900;
+        font-size: 38px;
+    }
+</style>
+
+<h1 class="dashboard-title">
+    SATIN ALMA YÖNETİMİ
+</h1>
+
+<p class="dashboard-subtitle">
+    Satın alma birimi depo taleplerini, stok çıkışı bekleyen işlemleri ve tamamlanan talep süreçlerini bu ekrandan takip eder.
+</p>
+
+<div class="row g-4 mb-5">
+
+    <div class="col-md-4">
+        <div class="stat-card text-center">
+            <h6>TOPLAM ÜRÜN</h6>
+            <h2>@ViewBag.TotalProducts</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card text-center">
+            <h6>TOPLAM TALEP</h6>
+            <h2>@ViewBag.TotalRequests</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="stat-card text-center">
+            <h6>KRİTİK STOK</h6>
+            <h2>@ViewBag.CriticalStock</h2>
+        </div>
+    </div>
+
+</div>
+
+<div class="row g-4 mb-5">
+
+    <div class="col-md-3">
+        <div class="stat-card text-center">
+            <h6>SATIN ALMA ONAYI BEKLEYEN</h6>
+            <h2>@ViewBag.WaitingApproval</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card text-center">
+            <h6>STOK ÇIKIŞI BEKLEYEN</h6>
+            <h2>@ViewBag.WaitingStockOut</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card text-center">
+            <h6>TAMAMLANAN TALEPLER</h6>
+            <h2>@ViewBag.CompletedRequests</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card text-center">
+            <h6>REDDEDİLEN TALEPLER</h6>
+            <h2>@ViewBag.RejectedRequests</h2>
+        </div>
+    </div>
+
+</div>

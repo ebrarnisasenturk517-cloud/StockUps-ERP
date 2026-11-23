@@ -1,0 +1,59 @@
+﻿@model List<StockOps.Models.Request>
+
+@{
+    ViewData["Title"] = "STOK ÇIKIŞI BEKLEYENLER";
+}
+
+<h2 class="page-header">
+    STOK ÇIKIŞI BEKLEYEN TALEPLER
+</h2>
+
+<p class="text-white fw-semibold mb-4">
+    Satın alma tarafından onaylanan talepler bu ekrana düşer. Depo sorumlusu fiziksel ürün çıkışını yaptıktan sonra stok çıkışı işlemini tamamlar.
+</p>
+
+<div class="card shadow p-3">
+
+    <table class="table table-bordered table-striped mb-0">
+        <thead>
+            <tr>
+                <th>TALEP NO</th>
+                <th>ÜRÜN ADI</th>
+                <th>ÜRÜN KODU</th>
+                <th>BARKOD</th>
+                <th>TALEP EDEN</th>
+                <th>TALEP MİKTARI</th>
+                <th>MEVCUT STOK</th>
+                <th>TALEP TARİHİ</th>
+                <th>İŞLEM</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="table-warning">
+                    <td>@item.Id</td>
+                    <td>@item.Product?.Name</td>
+                    <td>@item.Product?.ProductCode</td>
+                    <td>@item.Product?.Barcode</td>
+                    <td>@item.User?.Username</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product?.StockQuantity</td>
+                    <td>@item.RequestDate.ToShortDateString()</td>
+                    <td>
+                        <a href="/Requests/StockOut/@item.Id"
+                           class="btn btn-success btn-sm erp-btn">
+                            STOK ÇIKIŞI YAP
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<a href="/Requests" class="btn btn-secondary erp-btn mt-3">
+    TALEP YÖNETİMİNE DÖN
+</a>

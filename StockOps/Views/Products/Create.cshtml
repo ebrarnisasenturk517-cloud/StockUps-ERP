@@ -1,0 +1,131 @@
+﻿@model StockOps.Models.Product
+
+@{
+    ViewData["Title"] = "Yeni Ürün Ekle";
+}
+
+<style>
+    h2,
+    label,
+    .form-label {
+        color: white !important;
+        font-weight: 700;
+    }
+
+    .form-control {
+        color: white !important;
+        background-color: rgba(255,255,255,0.08);
+        border: 1px solid #6b7280;
+    }
+
+        .form-control:focus {
+            color: white !important;
+            background-color: rgba(255,255,255,0.12);
+            border-color: #ffc107;
+            box-shadow: none;
+        }
+
+        .form-control::placeholder {
+            color: #d1d5db;
+        }
+
+    h2 {
+        margin-bottom: 25px;
+        font-weight: 900;
+        text-transform: uppercase;
+    }
+
+    .form-container {
+        background: rgba(255,255,255,0.05);
+        padding: 30px;
+        border-radius: 20px;
+    }
+
+    .btn-save {
+        background: #ffc107;
+        color: #111827;
+        font-weight: 900;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 10px;
+    }
+
+        .btn-save:hover {
+            background: #ffca2c;
+        }
+</style>
+
+<h2>YENİ ÜRÜN EKLE</h2>
+
+<div class="form-container">
+
+    <form asp-action="Create" method="post">
+
+        <div class="mb-3">
+            <label asp-for="Name">Ürün Adı</label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ProductCode">Ürün Kodu</label>
+            <input asp-for="ProductCode" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Category">Kategori</label>
+            <input asp-for="Category" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="SteelType">Çelik Tipi</label>
+            <input asp-for="SteelType" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Dimension">Ölçü</label>
+            <input asp-for="Dimension" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Supplier">Tedarikçi</label>
+            <input asp-for="Supplier" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="SupplierPhone">Tedarikçi Telefon</label>
+            <input asp-for="SupplierPhone" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Warehouse">Depo</label>
+            <input asp-for="Warehouse" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="StockQuantity">Stok Miktarı</label>
+            <input asp-for="StockQuantity" type="number" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Price">Fiyat</label>
+            <input asp-for="Price" type="number" step="0.01" class="form-control" />
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="ArrivalDate">Giriş Tarihi</label>
+            <input asp-for="ArrivalDate" type="date" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn-save">
+            KAYDET
+        </button>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

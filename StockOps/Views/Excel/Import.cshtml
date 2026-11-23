@@ -1,0 +1,257 @@
+﻿@model List<StockOps.Models.Product>
+
+@{
+    ViewData["Title"] = "EXCEL ENTEGRASYONU";
+    var requests = ViewBag.Requests as List<StockOps.Models.Request>;
+}
+
+<style>
+    .page-header {
+        color: white;
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+    }
+
+    .page-desc {
+        color: white;
+        font-weight: 600;
+        margin-bottom: 25px;
+    }
+
+    .excel-card {
+        background: rgba(255,255,255,0.96);
+        border-radius: 18px;
+        padding: 22px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+        margin-bottom: 25px;
+    }
+
+        .excel-card h4,
+        .excel-card h5 {
+            color: #111827;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+    .erp-btn {
+        font-weight: 900;
+        text-transform: uppercase;
+        border-radius: 10px;
+        padding: 10px 18px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
+
+    .table thead th {
+        background: #111827;
+        color: white;
+        font-weight: 900;
+        text-transform: uppercase;
+        white-space: nowrap;
+        text-align: center;
+    }
+
+    .table tbody td {
+        color: #111827;
+        font-weight: 600;
+        vertical-align: middle;
+        white-space: nowrap;
+        text-align: center;
+    }
+</style>
+
+<h2 class="page-header">
+    EXCEL ENTEGRASYONU
+</h2>
+
+<p class="page-desc">
+    Ürün ve talep verileri bu ekrandan görüntülenebilir, Excel'e aktarılabilir veya ürünler Excel üzerinden sisteme yüklenebilir.
+</p>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger fw-bold">
+        @ViewBag.Error
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success fw-bold">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="excel-card">
+
+    <h4>EXCEL İŞLEMLERİ</h4>
+
+    <div class="mt-3">
+        <a href="/Excel/DownloadTemplate" class="btn btn-info erp-btn">
+            EXCEL ŞABLONU İNDİR
+        </a>
+
+        <a href="/Excel/ExportProducts" class="btn btn-warning erp-btn">
+            ÜRÜNLERİ EXCEL'E AKTAR
+        </a>
+
+        <a href="/Excel/ExportRequests" class="btn btn-success erp-btn">
+            TALEPLERİ EXCEL'E AKTAR
+        </a>
+    </div>
+
+</div>
+
+<form asp-action="Import"
+      asp-controller="Excel"
+      method="post"
+      enctype="multipart/form-data">
+
+    <div class="excel-card">
+
+        <h5>EXCEL DOSYASI YÜKLE</h5>
+
+        <p>
+            Bu alandan yalnızca ürün Excel dosyaları sisteme yüklenebilir.
+        </p>
+
+        <input type="file"
+               name="file"
+               class="form-control mt-3"
+               accept=".xlsx" />
+
+        <button type="submit"
+                class="btn btn-primary erp-btn mt-3">
+            EXCEL DOSYASINI SİSTEME AKTAR
+        </button>
+
+    </div>
+
+</form>
+
+<div class="excel-card">
+
+    <h4>SİSTEMDEKİ ÜRÜNLER</h4>
+
+    <div class="table-responsive mt-3">
+
+        <table class="table table-bordered table-striped">
+
+            <thead>
+                <tr>
+                    <th>BARKOD</th>
+                    <th>ÜRÜN KODU</th>
+                    <th>ÜRÜN ADI</th>
+                    <th>KATEGORİ</th>
+                    <th>ÇELİK TİPİ</th>
+                    <th>ÖLÇÜ</th>
+                    <th>TEDARİKÇİ</th>
+                    <th>DEPO</th>
+                    <th>FİYAT</th>
+                    <th>STOK</th>
+                    <th>GİRİŞ TARİHİ</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Barcode</td>
+                        <td>@item.ProductCode</td>
+                        <td>@item.Name</td>
+                        <td>@item.Category</td>
+                        <td>@item.SteelType</td>
+                        <td>@item.Dimension</td>
+                        <td>@item.Supplier</td>
+                        <td>@item.Warehouse</td>
+                        <td>@item.Price ₺</td>
+                        <td>@item.StockQuantity</td>
+                        <td>@item.ArrivalDate.ToShortDateString()</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div class="excel-card">
+
+    <h4>SİSTEMDEKİ TALEPLER</h4>
+
+    <div class="table-responsive mt-3">
+
+        <table class="table table-bordered table-striped">
+
+            <thead>
+                <tr>
+                    <th>TALEP NO</th>
+                    <th>ÜRÜN ADI</th>
+                    <th>ÜRÜN KODU</th>
+                    <th>BARKOD</th>
+                    <th>TALEP EDEN</th>
+                    <th>TALEP MİKTARI</th>
+                    <th>MEVCUT STOK</th>
+                    <th>TEDARİKÇİ</th>
+                    <th>DURUM</th>
+                    <th>TALEP TARİHİ</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (requests != null && requests.Any())
+                {
+                    @foreach (var item in requests)
+                    {
+                        string rowClass = "";
+
+                        if (item.Status == "Stok Çıkışı Yapıldı")
+                        {
+                            rowClass = "table-success";
+                        }
+                        else if (item.Status == "Reddedildi")
+                        {
+                            rowClass = "table-danger";
+                        }
+                        else if (item.Status == "Tedarik Bekliyor")
+                        {
+                            rowClass = "table-warning";
+                        }
+                        else if (item.Status == "Satın Alma Onayladı" || item.Status == "Onaylandı")
+                        {
+                            rowClass = "table-info";
+                        }
+
+                        <tr class="@rowClass">
+                            <td>@item.Id</td>
+                            <td>@item.Product?.Name</td>
+                            <td>@item.Product?.ProductCode</td>
+                            <td>@item.Product?.Barcode</td>
+                            <td>@item.User?.Username</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Product?.StockQuantity</td>
+                            <td>@item.Product?.Supplier</td>
+                            <td>@item.Status</td>
+                            <td>@item.RequestDate.ToShortDateString()</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10">
+                            Sistemde kayıtlı talep bulunmamaktadır.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

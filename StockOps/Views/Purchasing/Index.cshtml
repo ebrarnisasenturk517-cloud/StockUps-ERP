@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Satın Alma";
+}
+
+<div class="module-header">
+    <div>
+        <h4 class="fw-bold mb-1"><i class="fa-solid fa-cart-shopping me-2"></i>Satın Alma & Sipariş Yönetimi</h4>
+        <p class="mb-0 text-white-50 small">Tedarikçi Siparişleri ve Mal Kabul Onayları</p>
+    </div>
+    <a href="/Purchasing/Create" class="btn btn-primary fw-bold btn-sm px-3">
+        <i class="fa-solid fa-cart-plus me-1"></i> Yeni Sipariş Oluştur
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-3 p-3">
+    <table class="table table-hover align-middle small">
+        <thead class="table-dark">
+            <tr>
+                <th>PO NO</th>
+                <th>TEDARİKÇİ FİRMA</th>
+                <th>SİPARİŞ TARİHİ</th>
+                <th>TOPLAM TUTAR</th>
+                <th>ONAY DURUMU</th>
+                <th>İŞLEM</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="fw-bold">PO-2026-401</td>
+                <td>DemirÇelik San. Tic. A.Ş.</td>
+                <td>01.08.2026</td>
+                <td class="fw-bold text-dark">₺850,000.00</td>
+                <td><span class="badge bg-warning text-dark">Onay Bekliyor</span></td>
+                <td><button class="btn btn-sm btn-outline-primary py-0 px-2">Detay</button></td>
+            </tr>
+            <tr>
+                <td class="fw-bold">PO-2026-398</td>
+                <td>Geri Dönüşüm Metal A.Ş.</td>
+                <td>28.07.2026</td>
+                <td class="fw-bold text-dark">₺320,000.00</td>
+                <td><span class="badge bg-success">Tamamlandı</span></td>
+                <td><button class="btn btn-sm btn-outline-primary py-0 px-2">Detay</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

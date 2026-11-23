@@ -1,0 +1,53 @@
+﻿@model List<StockOps.Models.Product>
+
+@{
+    ViewData["Title"] = "KRİTİK STOK TAKİBİ";
+}
+
+<h2 style="color:white !important;"> Kritik Stok Tablosu</h2>
+
+<p style="color:white !important;">
+    Stok miktarı 20'nin altında olan ürünler burada listelenir.
+</p>
+
+<div class="card shadow p-3 mt-3">
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Ürün No</th>
+                <th>Barkod</th>
+                <th>Ürün Kodu</th>
+                <th>Ürün Adı</th>
+                <th>Kategori</th>
+                <th>Çelik Tipi</th>
+                <th>Depo</th>
+                <th>Stok</th>
+                <th>Durum</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Barcode</td>
+                    <td>@item.ProductCode</td>
+                    <td>@item.Name</td>
+                    <td>@item.Category</td>
+                    <td>@item.SteelType</td>
+                    <td>@item.Warehouse</td>
+                    <td>@item.StockQuantity</td>
+                    <td>
+                        <span class="badge bg-danger">
+                            Kritik Stok
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+

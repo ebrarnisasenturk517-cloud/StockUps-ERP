@@ -1,0 +1,168 @@
+﻿@model StockOps.Models.WarehouseZone
+
+@{
+    ViewData["Title"] = "Yeni Depo Bölgesi";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+                    <h2 class="fw-bold mb-1">
+                        Yeni Depo Bölgesi
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Depo içine yeni bir operasyon bölgesi ekleyin.
+                    </p>
+                </div>
+
+                <a asp-action="Index"
+                   class="btn btn-outline-secondary">
+                    Listeye Dön
+                </a>
+
+            </div>
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="WarehouseId"
+                                   class="form-label">
+                                Depo
+                            </label>
+
+                            <select asp-for="WarehouseId"
+                                    asp-items="ViewBag.WarehouseList"
+                                    class="form-select">
+
+                                <option value="">
+                                    Depo Seçiniz
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="WarehouseId"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="ZoneCode"
+                                       class="form-label">
+                                    Bölge Kodu
+                                </label>
+
+                                <input asp-for="ZoneCode"
+                                       class="form-control"
+                                       placeholder="Örnek: HM-A" />
+
+                                <span asp-validation-for="ZoneCode"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Name"
+                                       class="form-label">
+                                    Bölge Adı
+                                </label>
+
+                                <input asp-for="Name"
+                                       class="form-control"
+                                       placeholder="Örnek: Hammadde A Bölgesi" />
+
+                                <span asp-validation-for="Name"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="ZoneType"
+                                   class="form-label">
+                                Bölge Türü
+                            </label>
+
+                            <select asp-for="ZoneType"
+                                    class="form-select">
+
+                                <option value="1">Hammadde</option>
+                                <option value="2">Mamul Ürün</option>
+                                <option value="3">Yarı Mamul</option>
+                                <option value="4">Sevkiyat</option>
+                                <option value="5">Kalite Kontrol</option>
+                                <option value="6">Karantina</option>
+                                <option value="7">Fire ve Atık</option>
+
+                            </select>
+
+                            <span asp-validation-for="ZoneType"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+
+                            <a asp-action="Index"
+                               class="btn btn-light">
+                                İptal
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Bölgeyi Kaydet
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "İç Talepler";
+}
+
+<div class="module-header">
+    <div>
+        <h4 class="fw-bold mb-1"><i class="fa-solid fa-file-signature me-2"></i>Fabrika İçi Malzeme Talepleri</h4>
+        <p class="mb-0 text-white-50 small">Departmanların Ambar Malzeme İstem Onayları</p>
+    </div>
+    <a href="/Requests/Create" class="btn btn-primary fw-bold btn-sm px-3">
+        <i class="fa-solid fa-plus me-1"></i> Talep Oluştur
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-3 p-3">
+    <table class="table table-bordered align-middle small">
+        <thead class="table-dark">
+            <tr>
+                <th>TALEP ID</th>
+                <th>TALEP EDEN BİRİM</th>
+                <th>İSTENEN MALZEME</th>
+                <th>ACİLİYET</th>
+                <th>DURUM</th>
+                <th>ONAY</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="fw-bold">TLP-8041</td>
+                <td>Bakım Onarım Ekibi</td>
+                <td>Rulman SKF 6205 (10 Adet)</td>
+                <td><span class="badge bg-danger">Kritik</span></td>
+                <td><span class="badge bg-warning text-dark">Onay Bekliyor</span></td>
+                <td>
+                    <button class="btn btn-success btn-sm py-0 px-2"><i class="fa-solid fa-check"></i></button>
+                    <button class="btn btn-danger btn-sm py-0 px-2"><i class="fa-solid fa-xmark"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

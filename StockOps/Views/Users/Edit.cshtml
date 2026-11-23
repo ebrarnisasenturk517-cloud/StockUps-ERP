@@ -1,0 +1,67 @@
+﻿@model StockOps.Models.User
+
+@{
+    ViewData["Title"] = "KULLANICI DÜZENLE";
+}
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger fw-bold">
+        @ViewBag.Error
+    </div>
+}
+
+<h2 class="page-header">
+    KULLANICI DÜZENLE
+</h2>
+
+<div class="card shadow p-4">
+
+    <form asp-action="Edit" method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">
+                KULLANICI ADI
+            </label>
+
+            <input asp-for="Username"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">
+                ŞİFRE
+            </label>
+
+            <input asp-for="Password"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label fw-bold">
+                ROL
+            </label>
+
+            <select asp-for="Role" class="form-control">
+                <option value="">ROL SEÇİNİZ</option>
+                <option value="Admin">ADMIN</option>
+                <option value="Depo">DEPO</option>
+                <option value="SatinAlma">SATIN ALMA</option>
+            </select>
+        </div>
+
+        <button type="submit"
+                class="btn btn-success erp-btn">
+            GÜNCELLE
+        </button>
+
+        <a href="/Users"
+           class="btn btn-secondary erp-btn">
+            GERİ DÖN
+        </a>
+
+    </form>
+
+</div>

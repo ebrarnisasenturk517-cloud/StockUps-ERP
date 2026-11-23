@@ -1,0 +1,154 @@
+﻿@model List<StockOps.Models.Request>
+
+@{
+    ViewData["Title"] = "DEPO TALEPLERİ";
+}
+
+<h2 class="page-header">
+    DEPO TALEPLERİ
+</h2>
+
+<p class="text-white fw-semibold mb-4">
+    Depodan gelen talepler, satın alma onayı ve stok çıkış durumu bu ekrandan takip edilir.
+</p>
+
+<div class="card shadow p-3">
+
+    <table class="table table-bordered table-striped mb-0">
+        <thead>
+            <tr>
+                <th>TALEP NO</th>
+                <th>ÜRÜN</th>
+                <th>ÜRÜN KODU</th>
+                <th>BARKOD</th>
+                <th>TALEP MİKTARI</th>
+                <th>MEVCUT STOK</th>
+                <th>DURUM</th>
+                <th>TALEP TARİHİ</th>
+                <th>İŞLEM</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                string rowClass = "";
+
+                if (item.Status == "Stok Çıkışı Yapıldı")
+                {
+                    rowClass = "table-success";
+                }
+                else if (item.Status == "Reddedildi")
+                {
+                    rowClass = "table-danger";
+                }
+                else if (item.Status == "Bekliyor")
+                {
+                    rowClass = "table-warning";
+                }
+                else if (item.Status == "Satın Alma Onayladı")
+                {
+                    rowClass = "table-info";
+                }
+                else if (item.Status == "Stok Yetersiz")
+                {
+                    rowClass = "table-secondary";
+                }
+
+                <tr class="@rowClass">
+                    <td>@item.Id</td>
+                    <td>@item.Product?.Name</td>
+                    <td>@item.Product?.ProductCode</td>
+                    <td>@item.Product?.Barcode</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product?.StockQuantity</td>
+
+                    <td>
+                        @if (item.Status == "Bekliyor")
+                        {
+                            <span class="badge bg-warning text-dark">
+                                SATIN ALMA ONAYI BEKLİYOR
+                            </span>
+                        }
+                        else if (item.Status == "Satın Alma Onayladı" || item.Status == "Onaylandı")
+                        {
+                            <span class="badge bg-info text-dark">
+                                STOK ÇIKIŞI BEKLİYOR
+                            </span>
+                        }
+                        else if (item.Status == "Stok Çıkışı Yapıldı")
+                        {
+                            <span class="badge bg-success">
+                                STOK ÇIKIŞI YAPILDI
+                            </span>
+                        }
+                        else if (item.Status == "Reddedildi")
+                        {
+                            <span class="badge bg-danger">
+                                REDDEDİLDİ
+                            </span>
+                        }
+                        else if (item.Status == "Stok Yetersiz")
+                        {
+                            <span class="badge bg-secondary">
+                                STOK YETERSİZ
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                @item.Status
+                            </span>
+                        }
+                    </td>
+
+                    <td>@item.RequestDate.ToShortDateString()</td>
+
+                    <td>
+                        @if (item.Status == "Bekliyor")
+                        {
+                            <a href="/Requests/Approve/@item.Id"
+                               class="btn btn-sm btn-success erp-btn">
+                                ONAYLA
+                            </a>
+
+                            <a href="/Requests/Reject/@item.Id"
+                               class="btn btn-sm btn-danger erp-btn">
+                                REDDET
+                            </a>
+                        }
+                        else if (item.Status == "Satın Alma Onayladı" || item.Status == "Onaylandı")
+                        {
+                            <span class="text-primary fw-bold">
+                                STOK ÇIKIŞI BEKLENİYOR
+                            </span>
+                        }
+                        else if (item.Status == "Stok Çıkışı Yapıldı")
+                        {
+                            <span class="text-success fw-bold">
+                                SÜREÇ TAMAMLANDI
+                            </span>
+                        }
+                        else if (item.Status == "Reddedildi")
+                        {
+                            <span class="text-danger fw-bold">
+                                TALEP REDDEDİLDİ
+                            </span>
+                        }
+                        else if (item.Status == "Stok Yetersiz")
+                        {
+                            <span class="text-secondary fw-bold">
+                                STOK YETERSİZ
+                            </span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<a href="/Purchasing/Dashboard" class="btn btn-secondary erp-btn mt-3">
+   GERİ DÖN
+</a>

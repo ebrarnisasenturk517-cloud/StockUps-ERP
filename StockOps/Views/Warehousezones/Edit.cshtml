@@ -1,0 +1,174 @@
+﻿@model StockOps.Models.WarehouseZone
+
+@{
+    ViewData["Title"] = "Depo Bölgesi Düzenle";
+}
+
+<div class="container py-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+                    <h2 class="fw-bold mb-1">
+                        Depo Bölgesi Düzenle
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Bölge bilgilerini ve durumunu güncelleyin.
+                    </p>
+                </div>
+
+                <a asp-action="Index"
+                   asp-route-warehouseId="@Model.WarehouseId"
+                   class="btn btn-outline-secondary">
+                    Listeye Dön
+                </a>
+
+            </div>
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+
+                    <form asp-action="Edit" method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <input asp-for="Id" type="hidden" />
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="WarehouseId"
+                                   class="form-label">
+                                Depo
+                            </label>
+
+                            <select asp-for="WarehouseId"
+                                    asp-items="ViewBag.WarehouseList"
+                                    class="form-select">
+                            </select>
+
+                            <span asp-validation-for="WarehouseId"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="ZoneCode"
+                                       class="form-label">
+                                    Bölge Kodu
+                                </label>
+
+                                <input asp-for="ZoneCode"
+                                       class="form-control" />
+
+                                <span asp-validation-for="ZoneCode"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label asp-for="Name"
+                                       class="form-label">
+                                    Bölge Adı
+                                </label>
+
+                                <input asp-for="Name"
+                                       class="form-control" />
+
+                                <span asp-validation-for="Name"
+                                      class="text-danger">
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="ZoneType"
+                                   class="form-label">
+                                Bölge Türü
+                            </label>
+
+                            <select asp-for="ZoneType"
+                                    class="form-select">
+
+                                <option value="1">Hammadde</option>
+                                <option value="2">Mamul Ürün</option>
+                                <option value="3">Yarı Mamul</option>
+                                <option value="4">Sevkiyat</option>
+                                <option value="5">Kalite Kontrol</option>
+                                <option value="6">Karantina</option>
+                                <option value="7">Fire ve Atık</option>
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-check form-switch mb-4">
+
+                            <input asp-for="IsActive"
+                                   class="form-check-input"
+                                   type="checkbox" />
+
+                            <label asp-for="IsActive"
+                                   class="form-check-label">
+                                Bölge aktif
+                            </label>
+
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+
+                            <a asp-action="Index"
+                               asp-route-warehouseId="@Model.WarehouseId"
+                               class="btn btn-light">
+                                İptal
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-warning">
+                                Değişiklikleri Kaydet
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
